@@ -111,9 +111,24 @@ macro_rules! ioctl {
             $crate::ioctl(fd, $nr as $crate::libc::c_ulong, data)
         }
     );
+    (bad read $name:ident with $nr:expr; $ty:ty) => (
+        pub unsafe fn $name(fd: $crate::libc::c_int, data: *mut $ty) -> $crate::libc::c_int {
+            $crate::ioctl(fd, $nr as $crate::libc::c_ulong, data)
+        }
+    );
+    (bad write $name:ident with $nr:expr; $ty:ty) => (
+        pub unsafe fn $name(fd: $crate::libc::c_int, data: *const $ty) -> $crate::libc::c_int {
+            $crate::ioctl(fd, $nr as $crate::libc::c_ulong, data)
+        }
+    );
     (none $name:ident with $ioty:expr, $nr:expr) => (
         pub unsafe fn $name(fd: $crate::libc::c_int) -> $crate::libc::c_int {
             $crate::ioctl(fd, io!($ioty, $nr) as $crate::libc::c_ulong)
+        }
+    );
+    (arg $name:ident with $ioty:expr, $nr:expr) => (
+        pub unsafe fn $name(fd: $crate::libc::c_int, arg: $crate::libc::c_ulong) -> $crate::libc::c_int {
+            $crate::ioctl(fd, io!($ioty, $nr) as $crate::libc::c_ulong, arg)
         }
     );
     (read $name:ident with $ioty:expr, $nr:expr; $ty:ty) => (
