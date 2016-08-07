@@ -426,5 +426,34 @@ pub unsafe fn eviocgabs(fd: ::libc::c_int, abs: u32, buf: *mut input_absinfo) ->
     ::ioctl(fd, ior!(b'E', 0x40 + abs, ::std::mem::size_of::<input_absinfo>()) as ::libc::c_ulong, buf)
 }
 
+ioctl!(bad write blkroset with io!(0x12, 93); ::libc::c_int);
+ioctl!(bad read blkroget with io!(0x12, 94); ::libc::c_int);
+ioctl!(none blkrrpart with 0x12, 95);
+ioctl!(bad read blkgetsize with io!(0x12, 96); ::libc::c_ulong);
+ioctl!(none blkflsbuf with 0x12, 97);
+ioctl!(arg  blkraset with 0x12, 98);
+ioctl!(bad read blkraget with io!(0x12, 99); ::libc::c_long);
+ioctl!(arg  blkfraset with 0x12, 100);
+ioctl!(bad read blkfraget with io!(0x12, 101); ::libc::c_long);
+// ioctl!(bad blksectset with io!(0x12, 102));
+ioctl!(bad read blksectget with io!(0x12, 103); ::libc::c_ushort);
+ioctl!(bad read blksszget with io!(0x12, 104); ::libc::c_int);
+ioctl!(bad read blkbszget with ior!(0x12, 112, ::std::mem::size_of::<::libc::size_t>()); ::libc::c_int);
+ioctl!(bad write blkbszset with iow!(0x12, 113, ::std::mem::size_of::<::libc::size_t>()); ::libc::c_int);
+ioctl!(bad read blkgetsize64 with ior!(0x12, 114, ::std::mem::size_of::<::libc::size_t>()); ::libc::uint64_t);
+//ioctl!(readwrite blktracesetup with 0x12, 115; blk_user_trace_setup);
+ioctl!(none blktracestart with 0x12, 116);
+ioctl!(none blktracestop with 0x12, 117);
+ioctl!(none blktraceteardown with 0x12, 118);
+ioctl!(bad write blkdiscard with io!(0x12, 119); [::libc::uint64_t; 2]);
+ioctl!(bad read blkiomin with io!(0x12, 120); ::libc::c_uint);
+ioctl!(bad read blkioopt with io!(0x12, 121); ::libc::c_uint);
+ioctl!(bad read blkalignoff with io!(0x12, 122); ::libc::c_int);
+ioctl!(bad read blkpbszget with io!(0x12, 123); ::libc::c_uint);
+ioctl!(bad read blkdiscardzeros with io!(0x12, 124); ::libc::c_uint);
+ioctl!(bad write blksecdiscard with io!(0x12, 125); [::libc::uint64_t; 2]);
+ioctl!(bad read blkrotational with io!(0x12, 126); ::libc::c_ushort);
+ioctl!(bad write blkzeroout with io!(0x12, 127); [::libc::uint64_t; 2]);
+
 #[cfg(target_arch = "x86_64")]
 include!("linux-generated-x86_64.rs");
