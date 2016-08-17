@@ -1,7 +1,7 @@
+use std::os::raw::{c_int, c_ulong};
+
 #[doc(hidden)]
 pub extern crate libc;
-#[macro_use]
-extern crate bitflags;
 
 #[cfg(target_os = "linux")]
 #[path = "platform/linux.rs"]
@@ -12,7 +12,7 @@ pub use platform::*;
 
 extern "C" {
     #[doc(hidden)]
-    pub fn ioctl(fd: libc::c_int, req: libc::c_ulong, ...) -> libc::c_int;
+    pub fn ioctl(fd: c_int, req: c_ulong, ...) -> c_int;
 }
 
 #[cfg(not(target_os = "linux"))]

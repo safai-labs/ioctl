@@ -89,9 +89,9 @@ tys = {
         "__s16": "i16",
         "__s32": "i32",
         "__s64": "i64",
-        "int": "::libc::c_int",
-        "long": "::libc::c_long",
-        "char": "::libc::c_char",
+        "int": "::std::os::raw::c_int",
+        "long": "::std::os::raw::c_long",
+        "char": "::std::os::raw::c_char",
         "size_t": "::libc::size_t",
 }
 

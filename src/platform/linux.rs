@@ -107,58 +107,58 @@ macro_rules! iorw {
 #[macro_export]
 macro_rules! ioctl {
     (bad $name:ident with $nr:expr) => (
-        pub unsafe fn $name(fd: $crate::libc::c_int, data: *mut u8) -> $crate::libc::c_int {
-            $crate::ioctl(fd, $nr as $crate::libc::c_ulong, data)
+        pub unsafe fn $name(fd: ::std::os::raw::c_int, data: *mut u8) -> ::std::os::raw::c_int {
+            $crate::ioctl(fd, $nr as ::std::os::raw::c_ulong, data)
         }
     );
     (bad read $name:ident with $nr:expr; $ty:ty) => (
-        pub unsafe fn $name(fd: $crate::libc::c_int, data: *mut $ty) -> $crate::libc::c_int {
-            $crate::ioctl(fd, $nr as $crate::libc::c_ulong, data)
+        pub unsafe fn $name(fd: ::std::os::raw::c_int, data: *mut $ty) -> ::std::os::raw::c_int {
+            $crate::ioctl(fd, $nr as ::std::os::raw::c_ulong, data)
         }
     );
     (bad write $name:ident with $nr:expr; $ty:ty) => (
-        pub unsafe fn $name(fd: $crate::libc::c_int, data: *const $ty) -> $crate::libc::c_int {
-            $crate::ioctl(fd, $nr as $crate::libc::c_ulong, data)
+        pub unsafe fn $name(fd: ::std::os::raw::c_int, data: *const $ty) -> ::std::os::raw::c_int {
+            $crate::ioctl(fd, $nr as ::std::os::raw::c_ulong, data)
         }
     );
     (none $name:ident with $ioty:expr, $nr:expr) => (
-        pub unsafe fn $name(fd: $crate::libc::c_int) -> $crate::libc::c_int {
-            $crate::ioctl(fd, io!($ioty, $nr) as $crate::libc::c_ulong)
+        pub unsafe fn $name(fd: ::std::os::raw::c_int) -> ::std::os::raw::c_int {
+            $crate::ioctl(fd, io!($ioty, $nr) as ::std::os::raw::c_ulong)
         }
     );
     (arg $name:ident with $ioty:expr, $nr:expr) => (
-        pub unsafe fn $name(fd: $crate::libc::c_int, arg: $crate::libc::c_ulong) -> $crate::libc::c_int {
-            $crate::ioctl(fd, io!($ioty, $nr) as $crate::libc::c_ulong, arg)
+        pub unsafe fn $name(fd: ::std::os::raw::c_int, arg: ::std::os::raw::c_ulong) -> ::std::os::raw::c_int {
+            $crate::ioctl(fd, io!($ioty, $nr) as ::std::os::raw::c_ulong, arg)
         }
     );
     (read $name:ident with $ioty:expr, $nr:expr; $ty:ty) => (
-        pub unsafe fn $name(fd: $crate::libc::c_int, val: *mut $ty) -> $crate::libc::c_int {
-            $crate::ioctl(fd, ior!($ioty, $nr, ::std::mem::size_of::<$ty>()) as $crate::libc::c_ulong, val)
+        pub unsafe fn $name(fd: ::std::os::raw::c_int, val: *mut $ty) -> ::std::os::raw::c_int {
+            $crate::ioctl(fd, ior!($ioty, $nr, ::std::mem::size_of::<$ty>()) as ::std::os::raw::c_ulong, val)
         }
         );
     (write $name:ident with $ioty:expr, $nr:expr; $ty:ty) => (
-        pub unsafe fn $name(fd: $crate::libc::c_int, val: *const $ty) -> $crate::libc::c_int {
-            $crate::ioctl(fd, iow!($ioty, $nr, ::std::mem::size_of::<$ty>()) as $crate::libc::c_ulong, val)
+        pub unsafe fn $name(fd: ::std::os::raw::c_int, val: *const $ty) -> ::std::os::raw::c_int {
+            $crate::ioctl(fd, iow!($ioty, $nr, ::std::mem::size_of::<$ty>()) as ::std::os::raw::c_ulong, val)
         }
         );
     (readwrite $name:ident with $ioty:expr, $nr:expr; $ty:ty) => (
-        pub unsafe fn $name(fd: $crate::libc::c_int, val: *mut $ty) -> $crate::libc::c_int {
-            $crate::ioctl(fd, iorw!($ioty, $nr, ::std::mem::size_of::<$ty>()) as $crate::libc::c_ulong, val)
+        pub unsafe fn $name(fd: ::std::os::raw::c_int, val: *mut $ty) -> ::std::os::raw::c_int {
+            $crate::ioctl(fd, iorw!($ioty, $nr, ::std::mem::size_of::<$ty>()) as ::std::os::raw::c_ulong, val)
         }
         );
     (read buf $name:ident with $ioty:expr, $nr:expr; $ty:ty) => (
-        pub unsafe fn $name(fd: $crate::libc::c_int, val: *mut $ty, len: usize) -> $crate::libc::c_int {
-            $crate::ioctl(fd, ior!($ioty, $nr, len) as $crate::libc::c_ulong, val)
+        pub unsafe fn $name(fd: ::std::os::raw::c_int, val: *mut $ty, len: usize) -> ::std::os::raw::c_int {
+            $crate::ioctl(fd, ior!($ioty, $nr, len) as ::std::os::raw::c_ulong, val)
         }
         );
     (write buf $name:ident with $ioty:expr, $nr:expr; $ty:ty) => (
-        pub unsafe fn $name(fd: $crate::libc::c_int, val: *const $ty, len: usize) -> $crate::libc::c_int {
-            $crate::ioctl(fd, iow!($ioty, $nr, len) as $crate::libc::c_ulong, val)
+        pub unsafe fn $name(fd: ::std::os::raw::c_int, val: *const $ty, len: usize) -> ::std::os::raw::c_int {
+            $crate::ioctl(fd, iow!($ioty, $nr, len) as ::std::os::raw::c_ulong, val)
         }
         );
     (readwrite buf $name:ident with $ioty:expr, $nr:expr; $ty:ty) => (
-        pub unsafe fn $name(fd: $crate::libc::c_int, val: *const $ty, len: usize) -> $crate::libc::c_int {
-            $crate::ioctl(fd, iorw!($ioty, $nr, len) as $crate::libc::c_ulong, val)
+        pub unsafe fn $name(fd: ::std::os::raw::c_int, val: *const $ty, len: usize) -> ::std::os::raw::c_int {
+            $crate::ioctl(fd, iorw!($ioty, $nr, len) as ::std::os::raw::c_ulong, val)
         }
         );
 }
@@ -413,46 +413,46 @@ ioctl!(read buf eviocgsnd with b'E', 0x1a; u8);
 ioctl!(read buf eviocgsw with b'E', 0x1b; u8);
 
 ioctl!(write eviocsff with b'E', 0x80; ff_effect);
-ioctl!(write eviocgrab with b'E', 0x90; ::libc::c_int);
-ioctl!(write eviocrevoke with b'E', 0x91; ::libc::c_int);
-ioctl!(write eviocsclockid with b'E', 0xa0; ::libc::c_int);
+ioctl!(write eviocgrab with b'E', 0x90; ::std::os::raw::c_int);
+ioctl!(write eviocrevoke with b'E', 0x91; ::std::os::raw::c_int);
+ioctl!(write eviocsclockid with b'E', 0xa0; ::std::os::raw::c_int);
 
-pub unsafe fn eviocgbit(fd: ::libc::c_int, ev: u32, len: ::libc::c_int, buf: *mut u8) -> ::libc::c_int {
-    ::ioctl(fd, ior!(b'E', 0x20 + ev, len) as ::libc::c_ulong, buf)
+pub unsafe fn eviocgbit(fd: ::std::os::raw::c_int, ev: u32, len: ::std::os::raw::c_int, buf: *mut u8) -> ::std::os::raw::c_int {
+    ::ioctl(fd, ior!(b'E', 0x20 + ev, len) as ::std::os::raw::c_ulong, buf)
 }
 
-pub unsafe fn eviocgabs(fd: ::libc::c_int, abs: u32, buf: *mut input_absinfo) -> ::libc::c_int {
-    ::ioctl(fd, ior!(b'E', 0x40 + abs, ::std::mem::size_of::<input_absinfo>()) as ::libc::c_ulong, buf)
+pub unsafe fn eviocgabs(fd: ::std::os::raw::c_int, abs: u32, buf: *mut input_absinfo) -> ::std::os::raw::c_int {
+    ::ioctl(fd, ior!(b'E', 0x40 + abs, ::std::mem::size_of::<input_absinfo>()) as ::std::os::raw::c_ulong, buf)
 }
 
-ioctl!(bad write blkroset with io!(0x12, 93); ::libc::c_int);
-ioctl!(bad read blkroget with io!(0x12, 94); ::libc::c_int);
+ioctl!(bad write blkroset with io!(0x12, 93); ::std::os::raw::c_int);
+ioctl!(bad read blkroget with io!(0x12, 94); ::std::os::raw::c_int);
 ioctl!(none blkrrpart with 0x12, 95);
-ioctl!(bad read blkgetsize with io!(0x12, 96); ::libc::c_ulong);
+ioctl!(bad read blkgetsize with io!(0x12, 96); ::std::os::raw::c_ulong);
 ioctl!(none blkflsbuf with 0x12, 97);
 ioctl!(arg  blkraset with 0x12, 98);
-ioctl!(bad read blkraget with io!(0x12, 99); ::libc::c_long);
+ioctl!(bad read blkraget with io!(0x12, 99); ::std::os::raw::c_long);
 ioctl!(arg  blkfraset with 0x12, 100);
-ioctl!(bad read blkfraget with io!(0x12, 101); ::libc::c_long);
+ioctl!(bad read blkfraget with io!(0x12, 101); ::std::os::raw::c_long);
 // ioctl!(bad blksectset with io!(0x12, 102));
-ioctl!(bad read blksectget with io!(0x12, 103); ::libc::c_ushort);
-ioctl!(bad read blksszget with io!(0x12, 104); ::libc::c_int);
-ioctl!(bad read blkbszget with ior!(0x12, 112, ::std::mem::size_of::<::libc::size_t>()); ::libc::c_int);
-ioctl!(bad write blkbszset with iow!(0x12, 113, ::std::mem::size_of::<::libc::size_t>()); ::libc::c_int);
-ioctl!(bad read blkgetsize64 with ior!(0x12, 114, ::std::mem::size_of::<::libc::size_t>()); ::libc::uint64_t);
+ioctl!(bad read blksectget with io!(0x12, 103); ::std::os::raw::c_ushort);
+ioctl!(bad read blksszget with io!(0x12, 104); ::std::os::raw::c_int);
+ioctl!(bad read blkbszget with ior!(0x12, 112, ::std::mem::size_of::<::libc::size_t>()); ::std::os::raw::c_int);
+ioctl!(bad write blkbszset with iow!(0x12, 113, ::std::mem::size_of::<::libc::size_t>()); ::std::os::raw::c_int);
+ioctl!(bad read blkgetsize64 with ior!(0x12, 114, ::std::mem::size_of::<::libc::size_t>()); u64);
 //ioctl!(readwrite blktracesetup with 0x12, 115; blk_user_trace_setup);
 ioctl!(none blktracestart with 0x12, 116);
 ioctl!(none blktracestop with 0x12, 117);
 ioctl!(none blktraceteardown with 0x12, 118);
-ioctl!(bad write blkdiscard with io!(0x12, 119); [::libc::uint64_t; 2]);
-ioctl!(bad read blkiomin with io!(0x12, 120); ::libc::c_uint);
-ioctl!(bad read blkioopt with io!(0x12, 121); ::libc::c_uint);
-ioctl!(bad read blkalignoff with io!(0x12, 122); ::libc::c_int);
-ioctl!(bad read blkpbszget with io!(0x12, 123); ::libc::c_uint);
-ioctl!(bad read blkdiscardzeros with io!(0x12, 124); ::libc::c_uint);
-ioctl!(bad write blksecdiscard with io!(0x12, 125); [::libc::uint64_t; 2]);
-ioctl!(bad read blkrotational with io!(0x12, 126); ::libc::c_ushort);
-ioctl!(bad write blkzeroout with io!(0x12, 127); [::libc::uint64_t; 2]);
+ioctl!(bad write blkdiscard with io!(0x12, 119); [u64; 2]);
+ioctl!(bad read blkiomin with io!(0x12, 120); ::std::os::raw::c_uint);
+ioctl!(bad read blkioopt with io!(0x12, 121); ::std::os::raw::c_uint);
+ioctl!(bad read blkalignoff with io!(0x12, 122); ::std::os::raw::c_int);
+ioctl!(bad read blkpbszget with io!(0x12, 123); ::std::os::raw::c_uint);
+ioctl!(bad read blkdiscardzeros with io!(0x12, 124); ::std::os::raw::c_uint);
+ioctl!(bad write blksecdiscard with io!(0x12, 125); [u64; 2]);
+ioctl!(bad read blkrotational with io!(0x12, 126); ::std::os::raw::c_ushort);
+ioctl!(bad write blkzeroout with io!(0x12, 127); [u64; 2]);
 
 #[cfg(target_arch = "x86_64")]
 include!("linux-generated-x86_64.rs");
