@@ -2,8 +2,8 @@
 ======================
 
 [![Travis](https://img.shields.io/travis/jmesmon/ioctl.svg?style=flat-square)](https://travis-ci.org/jmesmon/ioctl)
-[![ioctl-sys Crates.io](https://img.shields.io/crates/v/ioctl.svg?style=flat-square)](https://crates.io/crates/ioctl-sys)
-[![ioctls Crates.io](https://img.shields.io/crates/v/ioctl.svg?style=flat-square)](https://crates.io/crates/ioctls)
+[![ioctl-sys Crates.io](https://img.shields.io/crates/v/ioctl-sys.svg?style=flat-square)](https://crates.io/crates/ioctl-sys)
+[![ioctls Crates.io](https://img.shields.io/crates/v/ioctls.svg?style=flat-square)](https://crates.io/crates/ioctls)
 
 [Documentation](https://cmr.github.io/ioctl)
 
