@@ -10,6 +10,10 @@
 Helpers for binding `ioctl`s in Rust. Currently supports Linux on all architectures
 except SPARC and Alpha. Other platforms welcome!
 
+The `ioctl-sys` crate provides a basic interface to write your own ioctl wrappers.
+
+The `ioctls` crate provides wrappers for a bunch of ioctls.
+
 This library is pretty low-level and messy. `ioctl` is not fun.
 
 What is an `ioctl`?
