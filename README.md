@@ -5,7 +5,8 @@
 [![ioctl-sys Crates.io](https://img.shields.io/crates/v/ioctl-sys.svg?style=flat-square)](https://crates.io/crates/ioctl-sys)
 [![ioctls Crates.io](https://img.shields.io/crates/v/ioctls.svg?style=flat-square)](https://crates.io/crates/ioctls)
 
-[Documentation](https://docs.rs/ioctl-sys/)
+[ioctl-sys ![ioctl-sys Documentation](https://docs.rs/ioctl-sys/badge.svg)](https://docs.rs/ioctl-sys)
+[ioctls ![ioctls Documentation](https://docs.rs/ioctls/badge.svg)](https://docs.rs/ioctls)
 
 Helpers for binding `ioctl`s in Rust. Currently supports Linux on all architectures
 except SPARC and Alpha. Other platforms welcome!
