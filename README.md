@@ -1,8 +1,9 @@
-`ioctl`
-=======
+`ioctl-sys` & `ioctls`
+======================
 
-[![Travis](https://img.shields.io/travis/cmr/ioctl.svg?style=flat-square)](https://travis-ci.org/cmr/ioctl)
-[![Crates.io](https://img.shields.io/crates/v/ioctl.svg?style=flat-square)](https://crates.io/crates/ioctl)
+[![Travis](https://img.shields.io/travis/jmesmon/ioctl.svg?style=flat-square)](https://travis-ci.org/jmesmon/ioctl)
+[![ioctl-sys Crates.io](https://img.shields.io/crates/v/ioctl-sys.svg?style=flat-square)](https://crates.io/crates/ioctl-sys)
+[![ioctls Crates.io](https://img.shields.io/crates/v/ioctls.svg?style=flat-square)](https://crates.io/crates/ioctls)
 
 [Documentation](https://docs.rs/ioctl-sys/)
 
@@ -47,7 +48,7 @@ Example
 
 ```rust
 #[macro_use]
-extern crate ioctl;
+extern crate ioctl_sys;
 
 ioctl!(bad kiocsound with 0x4B2F);
 ioctl!(none drm_ioctl_set_master with b'd', 0x1e);
