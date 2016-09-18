@@ -44,6 +44,11 @@ creating a wrapper around `ioctl` that is somewhat more type-safe.
 Most `ioctl`s have no or little documentation. You'll need to scrounge through
 the source to figure out what they do and how they should be used.
 
+How do I figure out an ioctl's calling convention?
+==================================================
+
+For linux, you must look at the ioctl handlers in the kernel itself to determine how the value passed is being used. Look for the `copy_from_user()` and `get_user()` calls, these copy memory from userspace and may indicate that the ioctl's arg is a pointer. In othercases, the ioctl argument may simply be cast to an integer of some sort.
+
 Example
 =======
 
