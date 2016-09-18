@@ -4,7 +4,6 @@
 [![Travis](https://img.shields.io/travis/jmesmon/ioctl.svg?style=flat-square)](https://travis-ci.org/jmesmon/ioctl)
 [![ioctl-sys Crates.io](https://img.shields.io/crates/v/ioctl-sys.svg?style=flat-square)](https://crates.io/crates/ioctl-sys)
 [![ioctls Crates.io](https://img.shields.io/crates/v/ioctls.svg?style=flat-square)](https://crates.io/crates/ioctls)
-
 [ioctl-sys ![ioctl-sys Documentation](https://docs.rs/ioctl-sys/badge.svg)](https://docs.rs/ioctl-sys)
 [ioctls ![ioctls Documentation](https://docs.rs/ioctls/badge.svg)](https://docs.rs/ioctls)
 
