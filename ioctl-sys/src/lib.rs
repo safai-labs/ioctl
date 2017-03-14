@@ -1,7 +1,6 @@
 use std::os::raw::{c_int, c_ulong};
 
 #[cfg(target_os = "linux")]
-#[path = "platform/linux.rs"]
 #[macro_use]
 mod platform;
 
