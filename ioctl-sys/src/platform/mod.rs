@@ -8,6 +8,10 @@ pub const TYPEBITS: u32 = 8;
 #[path = "linux.rs"]
 mod consts;
 
+#[cfg(target_os = "macos")]
+#[path = "macos.rs"]
+mod consts;
+
 #[doc(hidden)]
 pub use self::consts::*;
 
