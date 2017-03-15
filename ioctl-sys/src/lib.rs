@@ -4,6 +4,7 @@ use std::os::raw::{c_int, c_ulong};
 #[macro_use]
 mod platform;
 
+#[cfg(any(target_os = "linux", target_os = "macos"))]
 pub use platform::*;
 
 extern "C" {
