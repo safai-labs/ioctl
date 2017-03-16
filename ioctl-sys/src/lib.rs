@@ -1,10 +1,10 @@
 use std::os::raw::{c_int, c_ulong};
 
-#[cfg(target_os = "linux")]
-#[path = "platform/linux.rs"]
+#[cfg(any(target_os = "linux", target_os = "macos"))]
 #[macro_use]
 mod platform;
 
+#[cfg(any(target_os = "linux", target_os = "macos"))]
 pub use platform::*;
 
 extern "C" {
@@ -12,5 +12,5 @@ extern "C" {
     pub fn ioctl(fd: c_int, req: c_ulong, ...) -> c_int;
 }
 
-#[cfg(not(target_os = "linux"))]
+#[cfg(not(any(target_os = "linux", target_os = "macos")))]
 use platform_not_supported;
