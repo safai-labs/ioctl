@@ -259,3 +259,6 @@ ioctl!(bad write blkzeroout with io!(0x12, 127); [u64; 2]);
 
 #[cfg(target_arch = "x86_64")]
 include!("linux-generated-x86_64.rs");
+
+#[cfg(target_arch = "arm")]
+include!("linux-generated-arm.rs");
