@@ -194,17 +194,6 @@ ioctl!(none drm_ioctl_set_master with DRM_IOCTL_BASE, 0x1e);
 // ioctl!(write drm_ioctl_update_draw with DRM_IOCTL_BASE, 0x3f; /*struct*/ drm_update_draw);
 // ioctl!(readwrite drm_ioctl_version with DRM_IOCTL_BASE, 0x00; /*struct*/ drm_version);
 // ioctl!(readwrite drm_ioctl_wait_vblank with DRM_IOCTL_BASE, 0x3a; FIXME2<['union', 'drm_wait_vblank']>);
-ioctl!(read eviocgeffects with b'E', 0x84; ::std::os::raw::c_int);
-ioctl!(read eviocgid with b'E', 0x02; /*struct*/ input_id);
-ioctl!(read eviocgkeycode with b'E', 0x04; [::libc::c_uint; 2]);
-// ioctl!(read eviocgkeycode_v2 with b'E', 0x04; /*struct*/ input_keymap_entry);
-ioctl!(read eviocgrep with b'E', 0x03; [::libc::c_uint; 2]);
-ioctl!(read eviocgversion with b'E', 0x01; ::std::os::raw::c_int);
-ioctl!(write eviocrmff with b'E', 0x81; ::std::os::raw::c_int);
-// TODO #define EVIOCSFF _IOC ( _IOC_WRITE , 'E' , 0x80 , sizeof ( struct ff_effect ) )
-ioctl!(write eviocskeycode with b'E', 0x04; [::libc::c_uint; 2]);
-// ioctl!(write eviocskeycode_v2 with b'E', 0x04; /*struct*/ input_keymap_entry);
-ioctl!(write eviocsrep with b'E', 0x03; [::libc::c_uint; 2]);
 ioctl!(read ext2_ioc_getflags with b'f', 1; ::std::os::raw::c_long);
 ioctl!(read ext2_ioc_getversion with b'v', 1; ::std::os::raw::c_long);
 ioctl!(read ext2_ioc_getversion_new with b'f', 3; ::std::os::raw::c_long);
