@@ -47,7 +47,7 @@ macro_rules! ioc {
 #[macro_export]
 macro_rules! io {
     ($ty:expr, $nr:expr) => {
-        ioc!($crate::NONE, $ty, $nr, 0)
+        $crate::ioc!($crate::NONE, $ty, $nr, 0)
     };
 }
 
@@ -55,7 +55,7 @@ macro_rules! io {
 #[macro_export]
 macro_rules! ior {
     ($ty:expr, $nr:expr, $sz:expr) => {
-        ioc!($crate::READ, $ty, $nr, $sz)
+        $crate::ioc!($crate::READ, $ty, $nr, $sz)
     };
 }
 
@@ -63,7 +63,7 @@ macro_rules! ior {
 #[macro_export]
 macro_rules! iow {
     ($ty:expr, $nr:expr, $sz:expr) => {
-        ioc!($crate::WRITE, $ty, $nr, $sz)
+        $crate::ioc!($crate::WRITE, $ty, $nr, $sz)
     };
 }
 
@@ -71,7 +71,7 @@ macro_rules! iow {
 #[macro_export]
 macro_rules! iorw {
     ($ty:expr, $nr:expr, $sz:expr) => {
-        ioc!($crate::READ | $crate::WRITE, $ty, $nr, $sz)
+        $crate::ioc!($crate::READ | $crate::WRITE, $ty, $nr, $sz)
     };
 }
 
@@ -95,7 +95,7 @@ macro_rules! ioctl {
     };
     (none $name:ident with $ioty:expr, $nr:expr) => {
         pub unsafe fn $name(fd: ::std::os::raw::c_int) -> ::std::os::raw::c_int {
-            $crate::ioctl(fd, io!($ioty, $nr) as ::std::os::raw::c_ulong)
+            $crate::ioctl(fd, $crate::io!($ioty, $nr) as ::std::os::raw::c_ulong)
         }
     };
     (arg $name:ident with $ioty:expr, $nr:expr) => {
@@ -103,14 +103,14 @@ macro_rules! ioctl {
             fd: ::std::os::raw::c_int,
             arg: ::std::os::raw::c_ulong,
         ) -> ::std::os::raw::c_int {
-            $crate::ioctl(fd, io!($ioty, $nr) as ::std::os::raw::c_ulong, arg)
+            $crate::ioctl(fd, $crate::io!($ioty, $nr) as ::std::os::raw::c_ulong, arg)
         }
     };
     (read $name:ident with $ioty:expr, $nr:expr; $ty:ty) => {
         pub unsafe fn $name(fd: ::std::os::raw::c_int, val: *mut $ty) -> ::std::os::raw::c_int {
             $crate::ioctl(
                 fd,
-                ior!($ioty, $nr, ::std::mem::size_of::<$ty>()) as ::std::os::raw::c_ulong,
+                $crate::ior!($ioty, $nr, ::std::mem::size_of::<$ty>()) as ::std::os::raw::c_ulong,
                 val,
             )
         }
@@ -119,7 +119,7 @@ macro_rules! ioctl {
         pub unsafe fn $name(fd: ::std::os::raw::c_int, val: *const $ty) -> ::std::os::raw::c_int {
             $crate::ioctl(
                 fd,
-                iow!($ioty, $nr, ::std::mem::size_of::<$ty>()) as ::std::os::raw::c_ulong,
+                $crate::iow!($ioty, $nr, ::std::mem::size_of::<$ty>()) as ::std::os::raw::c_ulong,
                 val,
             )
         }
@@ -128,7 +128,7 @@ macro_rules! ioctl {
         pub unsafe fn $name(fd: ::std::os::raw::c_int, val: *mut $ty) -> ::std::os::raw::c_int {
             $crate::ioctl(
                 fd,
-                iorw!($ioty, $nr, ::std::mem::size_of::<$ty>()) as ::std::os::raw::c_ulong,
+                $crate::iorw!($ioty, $nr, ::std::mem::size_of::<$ty>()) as ::std::os::raw::c_ulong,
                 val,
             )
         }
@@ -139,7 +139,7 @@ macro_rules! ioctl {
             val: *mut $ty,
             len: usize,
         ) -> ::std::os::raw::c_int {
-            $crate::ioctl(fd, ior!($ioty, $nr, len) as ::std::os::raw::c_ulong, val)
+            $crate::ioctl(fd, $crate::ior!($ioty, $nr, len) as ::std::os::raw::c_ulong, val)
         }
     };
     (write buf $name:ident with $ioty:expr, $nr:expr; $ty:ty) => {
@@ -148,7 +148,7 @@ macro_rules! ioctl {
             val: *const $ty,
             len: usize,
         ) -> ::std::os::raw::c_int {
-            $crate::ioctl(fd, iow!($ioty, $nr, len) as ::std::os::raw::c_ulong, val)
+            $crate::ioctl(fd, $crate::iow!($ioty, $nr, len) as ::std::os::raw::c_ulong, val)
         }
     };
     (readwrite buf $name:ident with $ioty:expr, $nr:expr; $ty:ty) => {
@@ -157,7 +157,7 @@ macro_rules! ioctl {
             val: *const $ty,
             len: usize,
         ) -> ::std::os::raw::c_int {
-            $crate::ioctl(fd, iorw!($ioty, $nr, len) as ::std::os::raw::c_ulong, val)
+            $crate::ioctl(fd, $crate::iorw!($ioty, $nr, len) as ::std::os::raw::c_ulong, val)
         }
     };
 }
