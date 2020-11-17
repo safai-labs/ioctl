@@ -33,28 +33,3 @@ jobs:
         with:
           command: test
           args: --all
-  check:
-    runs-on: ubuntu-20.04
-
-    steps:
-      - uses: actions/checkout@v2
-
-      - uses: actions-rs/toolchain@v1
-        with:
-          profile: minimal
-          toolchain: beta
-          override: true
-          components: rustfmt, clippy
-
-      - name: Cache Rust dependencies
-        uses: Swatinem/rust-cache@v1
-
-        #      - uses: actions-rs/cargo@v1
-        #with:
-        #  command: fmt
-        #  args: --all -- --check
-
-      - uses: actions-rs/cargo@v1
-        with:
-          command: clippy
-          args: -- -D warnings
