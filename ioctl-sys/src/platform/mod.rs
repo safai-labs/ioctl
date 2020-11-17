@@ -3,7 +3,6 @@ pub const NRBITS: u32 = 8;
 #[doc(hidden)]
 pub const TYPEBITS: u32 = 8;
 
-
 #[cfg(any(target_os = "linux", target_os = "android"))]
 #[path = "linux.rs"]
 mod consts;
@@ -36,95 +35,131 @@ pub const DIRMASK: u32 = (1 << DIRBITS) - 1;
 /// Encode an ioctl command.
 #[macro_export]
 macro_rules! ioc {
-    ($dir:expr, $ty:expr, $nr:expr, $sz:expr) => (
-        (($dir as u32) << $crate::DIRSHIFT) |
-        (($ty as u32) << $crate::TYPESHIFT) |
-        (($nr as u32) << $crate::NRSHIFT) |
-        (($sz as u32) << $crate::SIZESHIFT))
+    ($dir:expr, $ty:expr, $nr:expr, $sz:expr) => {
+        (($dir as u32) << $crate::DIRSHIFT)
+            | (($ty as u32) << $crate::TYPESHIFT)
+            | (($nr as u32) << $crate::NRSHIFT)
+            | (($sz as u32) << $crate::SIZESHIFT)
+    };
 }
 
 /// Encode an ioctl command that has no associated data.
 #[macro_export]
 macro_rules! io {
-    ($ty:expr, $nr:expr) => (ioc!($crate::NONE, $ty, $nr, 0))
+    ($ty:expr, $nr:expr) => {
+        ioc!($crate::NONE, $ty, $nr, 0)
+    };
 }
 
 /// Encode an ioctl command that reads.
 #[macro_export]
 macro_rules! ior {
-    ($ty:expr, $nr:expr, $sz:expr) => (ioc!($crate::READ, $ty, $nr, $sz))
+    ($ty:expr, $nr:expr, $sz:expr) => {
+        ioc!($crate::READ, $ty, $nr, $sz)
+    };
 }
 
 /// Encode an ioctl command that writes.
 #[macro_export]
 macro_rules! iow {
-    ($ty:expr, $nr:expr, $sz:expr) => (ioc!($crate::WRITE, $ty, $nr, $sz))
+    ($ty:expr, $nr:expr, $sz:expr) => {
+        ioc!($crate::WRITE, $ty, $nr, $sz)
+    };
 }
 
 /// Encode an ioctl command that both reads and writes.
 #[macro_export]
 macro_rules! iorw {
-    ($ty:expr, $nr:expr, $sz:expr) => (ioc!($crate::READ|$crate::WRITE, $ty, $nr, $sz))
+    ($ty:expr, $nr:expr, $sz:expr) => {
+        ioc!($crate::READ | $crate::WRITE, $ty, $nr, $sz)
+    };
 }
 
 /// Declare a wrapper function around an ioctl.
 #[macro_export]
 macro_rules! ioctl {
-    (bad $name:ident with $nr:expr) => (
+    (bad $name:ident with $nr:expr) => {
         pub unsafe fn $name(fd: ::std::os::raw::c_int, data: *mut u8) -> ::std::os::raw::c_int {
             $crate::ioctl(fd, $nr as ::std::os::raw::c_ulong, data)
         }
-    );
-    (bad read $name:ident with $nr:expr; $ty:ty) => (
+    };
+    (bad read $name:ident with $nr:expr; $ty:ty) => {
         pub unsafe fn $name(fd: ::std::os::raw::c_int, data: *mut $ty) -> ::std::os::raw::c_int {
             $crate::ioctl(fd, $nr as ::std::os::raw::c_ulong, data)
         }
-    );
-    (bad write $name:ident with $nr:expr; $ty:ty) => (
+    };
+    (bad write $name:ident with $nr:expr; $ty:ty) => {
         pub unsafe fn $name(fd: ::std::os::raw::c_int, data: *const $ty) -> ::std::os::raw::c_int {
             $crate::ioctl(fd, $nr as ::std::os::raw::c_ulong, data)
         }
-    );
-    (none $name:ident with $ioty:expr, $nr:expr) => (
+    };
+    (none $name:ident with $ioty:expr, $nr:expr) => {
         pub unsafe fn $name(fd: ::std::os::raw::c_int) -> ::std::os::raw::c_int {
             $crate::ioctl(fd, io!($ioty, $nr) as ::std::os::raw::c_ulong)
         }
-    );
-    (arg $name:ident with $ioty:expr, $nr:expr) => (
-        pub unsafe fn $name(fd: ::std::os::raw::c_int, arg: ::std::os::raw::c_ulong) -> ::std::os::raw::c_int {
+    };
+    (arg $name:ident with $ioty:expr, $nr:expr) => {
+        pub unsafe fn $name(
+            fd: ::std::os::raw::c_int,
+            arg: ::std::os::raw::c_ulong,
+        ) -> ::std::os::raw::c_int {
             $crate::ioctl(fd, io!($ioty, $nr) as ::std::os::raw::c_ulong, arg)
         }
-    );
-    (read $name:ident with $ioty:expr, $nr:expr; $ty:ty) => (
+    };
+    (read $name:ident with $ioty:expr, $nr:expr; $ty:ty) => {
         pub unsafe fn $name(fd: ::std::os::raw::c_int, val: *mut $ty) -> ::std::os::raw::c_int {
-            $crate::ioctl(fd, ior!($ioty, $nr, ::std::mem::size_of::<$ty>()) as ::std::os::raw::c_ulong, val)
+            $crate::ioctl(
+                fd,
+                ior!($ioty, $nr, ::std::mem::size_of::<$ty>()) as ::std::os::raw::c_ulong,
+                val,
+            )
         }
-        );
-    (write $name:ident with $ioty:expr, $nr:expr; $ty:ty) => (
+    };
+    (write $name:ident with $ioty:expr, $nr:expr; $ty:ty) => {
         pub unsafe fn $name(fd: ::std::os::raw::c_int, val: *const $ty) -> ::std::os::raw::c_int {
-            $crate::ioctl(fd, iow!($ioty, $nr, ::std::mem::size_of::<$ty>()) as ::std::os::raw::c_ulong, val)
+            $crate::ioctl(
+                fd,
+                iow!($ioty, $nr, ::std::mem::size_of::<$ty>()) as ::std::os::raw::c_ulong,
+                val,
+            )
         }
-        );
-    (readwrite $name:ident with $ioty:expr, $nr:expr; $ty:ty) => (
+    };
+    (readwrite $name:ident with $ioty:expr, $nr:expr; $ty:ty) => {
         pub unsafe fn $name(fd: ::std::os::raw::c_int, val: *mut $ty) -> ::std::os::raw::c_int {
-            $crate::ioctl(fd, iorw!($ioty, $nr, ::std::mem::size_of::<$ty>()) as ::std::os::raw::c_ulong, val)
+            $crate::ioctl(
+                fd,
+                iorw!($ioty, $nr, ::std::mem::size_of::<$ty>()) as ::std::os::raw::c_ulong,
+                val,
+            )
         }
-        );
-    (read buf $name:ident with $ioty:expr, $nr:expr; $ty:ty) => (
-        pub unsafe fn $name(fd: ::std::os::raw::c_int, val: *mut $ty, len: usize) -> ::std::os::raw::c_int {
+    };
+    (read buf $name:ident with $ioty:expr, $nr:expr; $ty:ty) => {
+        pub unsafe fn $name(
+            fd: ::std::os::raw::c_int,
+            val: *mut $ty,
+            len: usize,
+        ) -> ::std::os::raw::c_int {
             $crate::ioctl(fd, ior!($ioty, $nr, len) as ::std::os::raw::c_ulong, val)
         }
-        );
-    (write buf $name:ident with $ioty:expr, $nr:expr; $ty:ty) => (
-        pub unsafe fn $name(fd: ::std::os::raw::c_int, val: *const $ty, len: usize) -> ::std::os::raw::c_int {
+    };
+    (write buf $name:ident with $ioty:expr, $nr:expr; $ty:ty) => {
+        pub unsafe fn $name(
+            fd: ::std::os::raw::c_int,
+            val: *const $ty,
+            len: usize,
+        ) -> ::std::os::raw::c_int {
             $crate::ioctl(fd, iow!($ioty, $nr, len) as ::std::os::raw::c_ulong, val)
         }
-        );
-    (readwrite buf $name:ident with $ioty:expr, $nr:expr; $ty:ty) => (
-        pub unsafe fn $name(fd: ::std::os::raw::c_int, val: *const $ty, len: usize) -> ::std::os::raw::c_int {
+    };
+    (readwrite buf $name:ident with $ioty:expr, $nr:expr; $ty:ty) => {
+        pub unsafe fn $name(
+            fd: ::std::os::raw::c_int,
+            val: *const $ty,
+            len: usize,
+        ) -> ::std::os::raw::c_int {
             $crate::ioctl(fd, iorw!($ioty, $nr, len) as ::std::os::raw::c_ulong, val)
         }
-        );
+    };
 }
 
 /// Extracts the "direction" (read/write/none) from an encoded ioctl command.
@@ -156,6 +191,6 @@ pub const IN: u32 = (WRITE as u32) << DIRSHIFT;
 #[doc(hidden)]
 pub const OUT: u32 = (READ as u32) << DIRSHIFT;
 #[doc(hidden)]
-pub const INOUT: u32 = ((READ|WRITE) as u32) << DIRSHIFT;
+pub const INOUT: u32 = ((READ | WRITE) as u32) << DIRSHIFT;
 #[doc(hidden)]
 pub const SIZE_MASK: u32 = SIZEMASK << SIZESHIFT;

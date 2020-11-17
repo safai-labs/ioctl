@@ -11,6 +11,3 @@ include = ["Cargo.toml", "**/*.rs"]
 [dependencies]
 libc = "0.2"
 ioctl-sys = { path = "../ioctl-sys", version = "0.5" }
-
-[features]
-unstable = []
