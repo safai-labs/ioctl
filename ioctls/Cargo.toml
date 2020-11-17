@@ -1,13 +1,13 @@
 [package]
 name = "ioctls"
-version = "0.5.1"
+version = "0.6.0"
 authors = ["Cody P Schafer <dev@codyps.com>", "Corey Richardson <corey@octayn.net>"]
 description = "IO Control for POSIX-and-beyond systems (numerous ioctl specifications, see `ioctl-sys` for core functions & macros)"
 license = "MIT OR Apache-2.0"
 repository = "https://github.com/jmesmon/ioctl"
-documentation = "https://docs.rs/ioctls/0.5.1"
+documentation = "https://docs.rs/ioctls/0.6.0"
 include = ["Cargo.toml", "**/*.rs"]
 
 [dependencies]
 libc = "0.2"
-ioctl-sys = { path = "../ioctl-sys", version = "0.5" }
+ioctl-sys = { path = "../ioctl-sys", version = "0.6" }
