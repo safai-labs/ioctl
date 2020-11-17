@@ -1,4 +1,4 @@
-#[cfg(target_arch = "x86_64")]
+#[cfg(any(target_arch = "aarch64", target_arch = "x86_64"))]
 mod consts {
     #[doc(hidden)]
     pub const NONE: u8 = 1;
@@ -12,7 +12,7 @@ mod consts {
     pub const DIRBITS: u8 = 3;
 }
 
-#[cfg(not(target_arch = "x86_64"))]
+#[cfg(not(any(target_arch = "aarch64", target_arch = "x86_64")))]
 use this_arch_not_supported;
 
 #[doc(hidden)]
