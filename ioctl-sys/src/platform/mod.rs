@@ -4,7 +4,7 @@ pub const NRBITS: u32 = 8;
 pub const TYPEBITS: u32 = 8;
 
 
-#[cfg(target_os = "linux")]
+#[cfg(any(target_os = "linux", target_os = "android"))]
 #[path = "linux.rs"]
 mod consts;
 
