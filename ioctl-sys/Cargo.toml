@@ -9,6 +9,3 @@ documentation = "https://docs.rs/ioctl-sys/0.5.2"
 include = ["Cargo.toml", "**/*.rs"]
 
 [dependencies]
-
-[features]
-unstable = []
