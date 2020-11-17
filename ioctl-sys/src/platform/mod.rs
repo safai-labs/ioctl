@@ -139,7 +139,11 @@ macro_rules! ioctl {
             val: *mut $ty,
             len: usize,
         ) -> ::std::os::raw::c_int {
-            $crate::ioctl(fd, $crate::ior!($ioty, $nr, len) as ::std::os::raw::c_ulong, val)
+            $crate::ioctl(
+                fd,
+                $crate::ior!($ioty, $nr, len) as ::std::os::raw::c_ulong,
+                val,
+            )
         }
     };
     (write buf $name:ident with $ioty:expr, $nr:expr; $ty:ty) => {
@@ -148,7 +152,11 @@ macro_rules! ioctl {
             val: *const $ty,
             len: usize,
         ) -> ::std::os::raw::c_int {
-            $crate::ioctl(fd, $crate::iow!($ioty, $nr, len) as ::std::os::raw::c_ulong, val)
+            $crate::ioctl(
+                fd,
+                $crate::iow!($ioty, $nr, len) as ::std::os::raw::c_ulong,
+                val,
+            )
         }
     };
     (readwrite buf $name:ident with $ioty:expr, $nr:expr; $ty:ty) => {
@@ -157,7 +165,11 @@ macro_rules! ioctl {
             val: *const $ty,
             len: usize,
         ) -> ::std::os::raw::c_int {
-            $crate::ioctl(fd, $crate::iorw!($ioty, $nr, len) as ::std::os::raw::c_ulong, val)
+            $crate::ioctl(
+                fd,
+                $crate::iorw!($ioty, $nr, len) as ::std::os::raw::c_ulong,
+                val,
+            )
         }
     };
 }
