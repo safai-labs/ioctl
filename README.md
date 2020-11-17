@@ -1,7 +1,6 @@
 `ioctl-sys` & `ioctls`
 ======================
 
-[![Travis](https://img.shields.io/travis/jmesmon/ioctl.svg?style=flat-square)](https://travis-ci.org/jmesmon/ioctl)
 [![ioctl-sys Crates.io](https://img.shields.io/crates/v/ioctl-sys.svg?style=flat-square)](https://crates.io/crates/ioctl-sys)
 [![ioctls Crates.io](https://img.shields.io/crates/v/ioctls.svg?style=flat-square)](https://crates.io/crates/ioctls)
 [ioctl-sys ![ioctl-sys Documentation](https://docs.rs/ioctl-sys/badge.svg)](https://docs.rs/ioctl-sys)
@@ -38,7 +37,7 @@ Additionally, in `etc`, there are scripts for scraping system headers for
 How do I get the magic numbers?
 ===============================
 
-Look at your system's headers. For example, `/usr/include/linxu/input.h` has a
+Look at your system's headers. For example, `/usr/include/linux/input.h` has a
 lot of lines defining macros which use `_IOR`, `_IOW`, `_IOC`, and `_IORW`.
 These macros correspond to the `ior!`, `iow!`, `ioc!`, and `iorw!` macros
 defined in this crate. Additionally, there is the `ioctl!` macro for
@@ -56,8 +55,7 @@ Example
 =======
 
 ```rust
-#[macro_use]
-extern crate ioctl_sys;
+use ioctl_sys::ioctl;
 
 ioctl!(bad kiocsound with 0x4B2F);
 ioctl!(none drm_ioctl_set_master with b'd', 0x1e);
