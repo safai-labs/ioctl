@@ -180,7 +180,7 @@ macro_rules! ioctl {
         pub unsafe fn $name(
             fd: ::std::os::raw::c_int,
             val: *mut $ty,
-        ) -> std::result::Result<$ty, std::io::Error> {
+        ) -> std::result::Result<(), std::io::Error> {
             $crate::check_res($crate::ioctl(
                 fd,
                 $crate::iorw!($ioty, $nr, ::std::mem::size_of::<$ty>()) as ::std::os::raw::c_ulong,
