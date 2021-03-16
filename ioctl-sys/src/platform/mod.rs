@@ -98,6 +98,14 @@ macro_rules! ioctl {
             $crate::ioctl(fd, $crate::io!($ioty, $nr) as ::std::os::raw::c_ulong)
         }
     };
+    (try none $name:ident with $ioty:expr, $nr:expr) => {
+        pub unsafe fn $name(fd: ::std::os::raw::c_int) -> std::result::Result<(), std::io::Error> {
+            $crate::check_res($crate::ioctl(
+                fd,
+                $crate::io!($ioty, $nr) as ::std::os::raw::c_ulong,
+            ))
+        }
+    };
     (arg $name:ident with $ioty:expr, $nr:expr) => {
         pub unsafe fn $name(
             fd: ::std::os::raw::c_int,
@@ -115,6 +123,29 @@ macro_rules! ioctl {
             )
         }
     };
+    (try read $name:ident with $ioty:expr, $nr:expr; $ty:ty) => {
+        pub unsafe fn $name(
+            fd: ::std::os::raw::c_int,
+            val: *mut $ty,
+        ) -> std::result::Result<(), std::io::Error> {
+            $crate::check_res($crate::ioctl(
+                fd,
+                $crate::ior!($ioty, $nr, ::std::mem::size_of::<$ty>()) as ::std::os::raw::c_ulong,
+                val,
+            ))
+        }
+    };
+    (try read0 $name:ident with $ioty:expr, $nr:expr; $ty:ty) => {
+        pub unsafe fn $name(fd: ::std::os::raw::c_int) -> std::result::Result<$ty, std::io::Error> {
+            let mut val: $ty = std::mem::zeroed();
+            $crate::check_res($crate::ioctl(
+                fd,
+                $crate::ior!($ioty, $nr, ::std::mem::size_of::<$ty>()) as ::std::os::raw::c_ulong,
+                &mut val as *mut $ty,
+            ))
+            .map(|_| val)
+        }
+    };
     (write $name:ident with $ioty:expr, $nr:expr; $ty:ty) => {
         pub unsafe fn $name(fd: ::std::os::raw::c_int, val: *const $ty) -> ::std::os::raw::c_int {
             $crate::ioctl(
@@ -124,6 +155,18 @@ macro_rules! ioctl {
             )
         }
     };
+    (try write $name:ident with $ioty:expr, $nr:expr; $ty:ty) => {
+        pub unsafe fn $name(
+            fd: ::std::os::raw::c_int,
+            val: *const $ty,
+        ) -> std::result::Result<(), std::io::Error> {
+            $crate::check_res($crate::ioctl(
+                fd,
+                $crate::iow!($ioty, $nr, ::std::mem::size_of::<$ty>()) as ::std::os::raw::c_ulong,
+                val,
+            ))
+        }
+    };
     (readwrite $name:ident with $ioty:expr, $nr:expr; $ty:ty) => {
         pub unsafe fn $name(fd: ::std::os::raw::c_int, val: *mut $ty) -> ::std::os::raw::c_int {
             $crate::ioctl(
@@ -131,6 +174,18 @@ macro_rules! ioctl {
                 $crate::iorw!($ioty, $nr, ::std::mem::size_of::<$ty>()) as ::std::os::raw::c_ulong,
                 val,
             )
+        }
+    };
+    (try readwrite $name:ident with $ioty:expr, $nr:expr; $ty:ty) => {
+        pub unsafe fn $name(
+            fd: ::std::os::raw::c_int,
+            val: *mut $ty,
+        ) -> std::result::Result<$ty, std::io::Error> {
+            $crate::check_res($crate::ioctl(
+                fd,
+                $crate::iorw!($ioty, $nr, ::std::mem::size_of::<$ty>()) as ::std::os::raw::c_ulong,
+                val,
+            ))
         }
     };
     (read buf $name:ident with $ioty:expr, $nr:expr; $ty:ty) => {

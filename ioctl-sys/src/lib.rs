@@ -12,6 +12,15 @@ extern "C" {
     pub fn ioctl(fd: c_int, req: c_ulong, ...) -> c_int;
 }
 
+#[doc(hidden)]
+pub fn check_res(res: c_int) -> std::io::Result<()> {
+    if res < 0 {
+        Err(std::io::Error::last_os_error())
+    } else {
+        Ok(())
+    }
+}
+
 #[cfg(not(any(target_os = "linux", target_os = "macos", target_os = "android")))]
 use platform_not_supported;
 
