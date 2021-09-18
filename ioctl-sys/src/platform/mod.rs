@@ -11,6 +11,10 @@ mod consts;
 #[path = "macos.rs"]
 mod consts;
 
+#[cfg(target_os = "openbsd")]
+#[path = "openbsd.rs"]
+mod consts;
+
 #[doc(hidden)]
 pub use self::consts::*;
 
