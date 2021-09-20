@@ -31,7 +31,8 @@ mod consts {
     target_arch = "x86",
     target_arch = "arm",
     target_arch = "x86_64",
-    target_arch = "aarch64"
+    target_arch = "aarch64",
+    target_arch = "riscv64"
 )))]
 use this_arch_not_supported;
 
@@ -40,7 +41,8 @@ use this_arch_not_supported;
     target_arch = "x86",
     target_arch = "arm",
     target_arch = "x86_64",
-    target_arch = "aarch64"
+    target_arch = "aarch64",
+    target_arch = "riscv64"
 ))]
 mod consts {
     #[doc(hidden)]
