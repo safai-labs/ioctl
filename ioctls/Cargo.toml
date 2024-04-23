@@ -4,7 +4,7 @@ version = "0.6.1"
 authors = ["Cody P Schafer <dev@codyps.com>", "Corey Richardson <corey@octayn.net>"]
 description = "IO Control for POSIX-and-beyond systems (numerous ioctl specifications, see `ioctl-sys` for core functions & macros)"
 license = "MIT OR Apache-2.0"
-repository = "https://github.com/jmesmon/ioctl"
+repository = "https://github.com/codyps/ioctl"
 documentation = "https://docs.rs/ioctls/0.6.0"
 include = ["Cargo.toml", "**/*.rs"]
 
