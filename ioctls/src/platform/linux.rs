@@ -251,7 +251,7 @@ pub unsafe fn eviocgbit(
     len: ::std::os::raw::c_int,
     buf: *mut u8,
 ) -> ::std::os::raw::c_int {
-    ::ioctl(
+    libc::ioctl(
         fd,
         ior!(b'E', 0x20 + ev, len) as ::std::os::raw::c_ulong,
         buf,
@@ -263,7 +263,7 @@ pub unsafe fn eviocgabs(
     abs: u32,
     buf: *mut input_absinfo,
 ) -> ::std::os::raw::c_int {
-    ::ioctl(
+    libc::ioctl(
         fd,
         ior!(b'E', 0x40 + abs, ::std::mem::size_of::<input_absinfo>()) as ::std::os::raw::c_ulong,
         buf,
